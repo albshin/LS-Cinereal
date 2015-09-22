@@ -1,0 +1,284 @@
+<!--======================================================================-->
+<!-------------------------------LS Cinereal-------------------------------->
+<!--------------------------Code by LolCakeLazors--------------------------->
+<!----------------------------Design by ymme1st----------------------------->
+<!-------------------Thanks to Mone from dBar Evolution--------------------->
+<!-------------------------------------------------------------------------->
+<!------------------DO NOT REDISTRIBUTE WITHOUT PERMISSION------------------>
+<!--======================================================================-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head><title>LS Cinereal</title>
+
+<script type="text/javascript" src="Config.js"></script>
+</head>
+
+<style>
+
+@font-face {
+	font-family: Museo;
+	src: url(Museo.TTF) format("truetype");
+}
+
+#Layer {
+	width: 321px;
+	height: 481px;
+	position: absolute;
+	top: -1px;
+	right: 0px;
+	down: 0px;
+	left: -1px;
+	background-image: url('LockBackground_iP4');
+	background-size: 320px auto;
+}
+
+.stretch {
+	width:100%;
+	height:100%;
+}
+
+body {
+	margin: 0px;
+}
+
+div#clockbackground {
+	width: 180px;
+	height: 60px;
+	position: relative;
+	left: 50%;
+	margin-left: -88px;
+	top: 50%;
+	margin-top: -60px;
+	background-image: url(Clock.png);
+	background-repeat: no-repeat;
+	background-size: 177px 66.5px;
+}
+
+div#clock {
+	width: 260px;
+	height: 133px;
+	position: relative;
+	left: 50%;
+	margin-left: -88px;
+	top: 50%;
+	margin-top: -60px;
+	text-align: center;
+	font: 36px "Museo";
+	color: #737373;
+}
+
+SPAN#hoursout {
+	position: absolute;
+	width: 33px;
+	height: 50px;
+	top: 9px;
+	left: 7px;
+	background: -webkit-gradient(linear, left bottom, left top, from(#828282), color-stop(57%,#828282), color-stop(52%, #bbbbbb), to(#828282));
+	-webkit-background-clip: text; 
+	-webkit-text-fill-color: transparent;
+}
+
+SPAN#hoursin {
+	position: absolute;
+	width: 33px;
+	height: 50px;
+	top: 9px;
+	left: 46px;
+	background: -webkit-gradient(linear, left bottom, left top, from(#828282), color-stop(57%,#828282), color-stop(52%, #bbbbbb), to(#828282));
+	-webkit-background-clip: text; 
+	-webkit-text-fill-color: transparent;
+}
+
+SPAN#minutesin {
+	position: absolute;
+	width: 33px;
+	height: 50px;
+	right: 129px;
+	top: 9px;
+	background: -webkit-gradient(linear, left bottom, left top, from(#828282), color-stop(57%,#828282), color-stop(52%, #bbbbbb), to(#828282));
+	-webkit-background-clip: text; 
+	-webkit-text-fill-color: transparent;
+}
+
+SPAN#minutesout {
+	position: absolute;
+	width: 33px;
+	height: 50px;
+	right: 90px;
+	top: 9px;
+	background: -webkit-gradient(linear, left bottom, left top, from(#828282), color-stop(57%,#828282), color-stop(52%, #bbbbbb), to(#828282));
+	-webkit-background-clip: text; 
+	-webkit-text-fill-color: transparent;
+}
+
+div#date {
+	width: 320px;
+	height: 20px;
+    position: relative;
+	left: 50%;
+	margin-left: -158px;
+	top: 50%;
+	margin-top: -60px;
+    text-align: center;
+    font: 14px "Museo";
+    color: #909090;
+    text-shadow: 0px 1px 2px #fff;
+}
+
+/* Credits to /u/balkonkind for this idea */
+div#statusbar {
+	position: absolute;
+	height: 21px;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hidden {
+	display: none;
+}
+
+</style>
+
+<!--======================================================================-->
+<!------------------------------Clock and Date------------------------------>
+<!--======================================================================-->
+
+<script type="text/javascript">
+
+function setBackground () 
+{
+	var screenHeight = screen.height;
+
+	if (screenHeight == 480) 
+	{
+		document.getElementById("Layer").style.backgroundImage = "url('LockBackground_iP4.png')";
+	}
+	else if (screenHeight == 568) 
+	{
+		document.getElementById("Layer").style.height = '570px';
+		document.getElementById("Layer").style.backgroundImage = "url('LockBackground_iP5.png')";
+	}
+	//Just for testing purposes on Chrome (Because obviously my screen size is not that small)
+	else
+	{
+		document.getElementById("Layer").style.backgroundImage = "url('LockBackground_iP4.png')";
+	}
+}
+
+function updateClock ()
+{
+	var currentClockTime = new Date();
+	var currentClockHours = currentClockTime.getHours();
+	var currentClockMinutes = currentClockTime.getMinutes();
+
+	//Convert to 12 hour time
+	if (twentyfourHour == false) 
+	{
+		currentClockHours = (currentClockHours > 12) ? currentClockHours - 12 : currentClockHours;
+		currentClockHours = (currentClockHours == 0) ? 12 : currentClockHours;
+	}
+
+	//Pad with zeroes
+	currentClockHours = (currentClockHours < 10 ? "0" : "") + currentClockHours;
+	currentClockMinutes = (currentClockMinutes < 10 ? "0" : "") + currentClockMinutes;
+
+	//Convert the time into strings, split the two numbers
+	var currentMinutes = String(currentClockMinutes);
+	var currentHours = String(currentClockHours);
+	currentMinutes = currentMinutes.split("");
+	currentHours = currentHours.split("");
+
+	//Update the time
+	document.getElementById("hoursout").innerHTML = currentHours[0]
+	document.getElementById("hoursin").innerHTML = currentHours[1]
+	document.getElementById("minutesin").innerHTML = currentMinutes[0]
+	document.getElementById("minutesout").innerHTML = currentMinutes[1]
+}
+
+function calendarDate ( )
+{
+	//Create an array to define the months and weekdays
+	var weekdayNames = new Array("Sunday,","Monday,","Tuesday,","Wednesday,","Thursday,","Friday,","Saturday,");
+	var monthNames = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+
+	var currentDate = new Date();
+
+	var currentWeekday = currentDate.getDay();
+	var currentMonth = currentDate.getMonth();
+	var currentDate = currentDate.getDate();
+
+	//Convert the date into a string
+	currentDate = String(currentDate);
+
+	//Update the date
+	document.getElementById("date").innerHTML = weekdayNames[currentWeekday] + ' ' + monthNames[currentMonth] + ' ' + currentDate;
+}
+
+var isVisible = false;
+
+function toggleBar ()
+{
+	isVisible = !isVisible;
+	
+	if (document.getElementById("statusbar").style.display == "none") 
+	{
+		isVisible = false;
+	}
+	else
+	{
+		isVisible = true;
+	}
+
+	if (isVisible == false)
+	{
+		document.getElementById("statusbar").setAttribute("class", "");
+	}
+	else
+	{
+		document.getElementById("statusbar").setAttribute("class", "hidden");
+	}
+}
+
+function onLoad() 
+{
+	//Set the background according to your device, create the Clock and Date
+	setBackground();
+	updateClock();
+	calendarDate();
+
+	//Update the time and date every second
+	setInterval(updateClock, 1000);
+	setInterval(calendarDate, 1000);
+
+	//Check if clock is being tapped
+	document.getElementById("clockbackground").addEventListener('touchstart', toggleBar, false);
+}
+
+</script>
+
+<!--=======================================================================-->
+<!------------------------------Layout the HTML------------------------------>
+<!--=======================================================================-->
+
+<body bgcolor="Transparent" onload="onLoad()">
+	<div id="Layer">
+		<div id="statusbar" class="hidden"></div>
+
+		<div id="clockbackground"></div>	
+		<div id="clock">
+			<span id="hoursout"></span>
+			<span id="hoursin"></span>
+			<span id="minutesin"></span>
+			<span id="minutesout"></span>
+		</div>
+		<div id="date"></div>
+	</div>
+</html>
